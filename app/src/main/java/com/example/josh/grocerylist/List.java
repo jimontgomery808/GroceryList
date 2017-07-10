@@ -25,6 +25,9 @@ public class List extends AppCompatActivity
         add = (Button) findViewById(R.id.addBtn);
         listView = (ListView) findViewById(R.id.list);
 
+        adapter = new ArrayAdapter<String>(this, R.layout.activity_list, listArray);
+        listView.setAdapter(adapter);
+
         View.OnClickListener clickListener = new View.OnClickListener()
         {
             @Override

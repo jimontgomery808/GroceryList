@@ -4,19 +4,19 @@ package com.example.josh.grocerylist;
 public class GroceryItem
 {
     private String name;
-    private double cost;
+    private String cost;
 
     public GroceryItem(String setName, String setCost)
     {
         name = setName;
-        cost = Double.parseDouble(setCost);
+        cost = setCost;
     }
     public String getName()
     {
         return name;
     }
 
-    public double getCost()
+    public String getCost()
     {
         return cost;
     }
@@ -26,7 +26,7 @@ public class GroceryItem
         this.name = name;
     }
 
-    public void setCost(double cost)
+    public void setCost(String cost)
     {
         this.cost = cost;
     }
