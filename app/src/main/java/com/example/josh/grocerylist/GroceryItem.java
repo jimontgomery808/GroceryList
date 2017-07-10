@@ -6,6 +6,11 @@ public class GroceryItem
     private String name;
     private double cost;
 
+    public GroceryItem(String setName, String setCost)
+    {
+        name = setName;
+        cost = Double.parseDouble(setCost);
+    }
     public String getName()
     {
         return name;
@@ -24,5 +29,11 @@ public class GroceryItem
     public void setCost(double cost)
     {
         this.cost = cost;
+    }
+
+    @Override
+    public String toString()
+    {
+        return("Item: " + name + "     Price: " + cost);
     }
 }
