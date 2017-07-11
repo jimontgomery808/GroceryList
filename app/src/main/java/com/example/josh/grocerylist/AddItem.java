@@ -20,16 +20,16 @@ public class AddItem extends AppCompatActivity
         setContentView(R.layout.activity_add_item);
 
         addItemBtn = (Button) findViewById(R.id.addToList);
-        itemName = (TextView) findViewById(R.id.nameText);
-        itemPrice = (TextView) findViewById(R.id.priceText);
+        itemName = (TextView) findViewById(R.id.nameInput);
+        itemPrice = (TextView) findViewById(R.id.priceInput);
 
         View.OnClickListener clickListener = new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                String name = (String) itemName.getText();
-                String price = (String) itemPrice.getText();
+                String name = (String) itemName.getText().toString();
+                String price = (String) itemPrice.getText().toString();
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("NAME", name);

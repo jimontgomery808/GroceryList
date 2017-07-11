@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="87dp"
-        android:id="@+id/editText"/>
+        android:id="@+id/nameInput"/>
 
     <TextView
         android:text="Item name"
@@ -38,7 +38,7 @@
         android:layout_below="@+id/priceText"
         android:layout_alignStart="@+id/priceText"
         android:layout_marginTop="47dp"
-        android:id="@+id/editText2"/>
+        android:id="@+id/priceInput"/>
 
     <TextView
         android:text="Price"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="58dp"
         android:id="@+id/priceText"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/nameInput"
         android:layout_alignParentStart="true"/>
 
     <Button
