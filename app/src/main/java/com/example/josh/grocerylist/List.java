@@ -1,10 +1,13 @@
 package com.example.josh.grocerylist;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,6 +24,7 @@ public class List extends AppCompatActivity
     private ArrayList<GroceryItem> shoppingCart = new ArrayList<>();
     private ArrayList<String> listArray = new ArrayList<>();
     private ArrayAdapter<String> adapter;
+    private GroceryItem tempItem;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,7 +38,37 @@ public class List extends AppCompatActivity
         adapter = new ArrayAdapter<String>(this, R.layout.single_item, listArray);
         listView.setAdapter(adapter);
 
-        View.OnClickListener clickListener = new View.OnClickListener()
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
+        {
+
+            public boolean onItemLongClick(AdapterView<?> arg0, View v,
+                                           final int index, long arg3)
+            {
+                String item = shoppingCart.get(index).getName();
+                AlertDialog.Builder adb=new AlertDialog.Builder(List.this);
+                adb.setTitle("Delete?");
+                adb.setMessage("Are you sure you want to delete " + item + "?");
+                final int positionToRemove = index;
+                adb.setNegativeButton("Cancel", null);
+                adb.setPositiveButton("Ok", new AlertDialog.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        total -= Double.parseDouble(shoppingCart.get(index).getCost());
+                        updateTotal(Double.toString(total));
+                        listArray.remove(index);
+                        shoppingCart.remove(index);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                adb.show();
+                return true;
+            }
+        });
+
+
+
+        View.OnClickListener addPushed = new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -43,8 +77,7 @@ public class List extends AppCompatActivity
                 startActivityForResult(intent, 2);
             }
         };
-
-        add.setOnClickListener(clickListener);
+        add.setOnClickListener(addPushed);
     }
 
     @Override
@@ -67,7 +100,13 @@ public class List extends AppCompatActivity
             listArray.add(groceryItem.toString());
             adapter.notifyDataSetChanged();
 
-            runTotal.setText("$" + Double.toString(total));
+            updateTotal("$" + Double.toString(total));
         }
     }
+
+    private void updateTotal(String total)
+    {
+        runTotal.setText(total);
+    }
+
 }
