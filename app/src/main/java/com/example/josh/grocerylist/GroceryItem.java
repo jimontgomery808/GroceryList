@@ -5,11 +5,24 @@ public class GroceryItem
 {
     private String name;
     private double cost;
+    private int quanity;
 
-    public GroceryItem(String setName, double setCost)
+
+    public int getQuanity()
+    {
+        return quanity;
+    }
+
+    public void setQuanity(int quanity)
+    {
+        this.quanity = quanity;
+    }
+
+    public GroceryItem(String setName, double setCost, int setQuantity)
     {
         name = setName;
         cost = setCost;
+        quanity = setQuantity;
     }
     public String getName()
     {

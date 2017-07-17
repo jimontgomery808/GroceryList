@@ -25,7 +25,7 @@ public class List extends AppCompatActivity
     private TextView runTotal;
     private ArrayList<GroceryItem> shoppingCart = new ArrayList<>();
     private ArrayList<String> listArray = new ArrayList<>();
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<GroceryItem> adapter;
 
     private DecimalFormat precision = new DecimalFormat("#.##");
     @Override
@@ -38,7 +38,7 @@ public class List extends AppCompatActivity
         listView = (ListView) findViewById(R.id.list);
         runTotal = (TextView) findViewById(runningTotal);
 
-        adapter = new ArrayAdapter<String>(this, R.layout.single_item, listArray);
+        adapter = new GroceryListAdapter(this, R.layout.adapter_view, shoppingCart);
         listView.setAdapter(adapter);
 
         // ITEM DELETED FROM LIST
@@ -96,7 +96,7 @@ public class List extends AppCompatActivity
             double itemPrice = Double.parseDouble(price);
             total += itemPrice;
 
-            GroceryItem groceryItem = new GroceryItem(name, itemPrice);
+            GroceryItem groceryItem = new GroceryItem(name, itemPrice, 1);
             addItem(groceryItem);
 
         }
@@ -137,7 +137,7 @@ public class List extends AppCompatActivity
     private void addItem(GroceryItem item)
     {
         shoppingCart.add(item);
-        listArray.add(item.toString());
+       // listArray.add(item.toString());
         adapter.notifyDataSetChanged();
         updateTotal(total);
     }

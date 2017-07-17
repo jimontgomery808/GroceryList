@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.Spinner;
 
 import java.text.DecimalFormat;
 
@@ -16,7 +19,8 @@ public class AddItem extends AppCompatActivity
     private Button addItemBtn;
     private EditText itemName;
     private EditText itemPrice;
-    private Button scanBarcode;
+    private NumberPicker numberPicker;
+    private Spinner measureSpinner;
     private DecimalFormat precision = new DecimalFormat("0.00");
 
     @Override
@@ -28,7 +32,18 @@ public class AddItem extends AppCompatActivity
         addItemBtn = (Button) findViewById(R.id.addToList);
         itemName = (EditText) findViewById(R.id.nameInput);
         itemPrice = (EditText) findViewById(R.id.priceInput);
-        scanBarcode = (Button) findViewById(R.id.cameraButton);
+        numberPicker = (NumberPicker) findViewById(R.id.numberPicker);
+        measureSpinner = (Spinner) findViewById(R.id.measure_spinner);
+
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(10);
+        //numberPicker.setWrapSelectorWheel(false);
+
+        ArrayAdapter<CharSequence> meausureAdapter = ArrayAdapter.createFromResource(this, R.array.measure,android.R.layout.simple_spinner_item);
+
+        meausureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        measureSpinner.setAdapter(meausureAdapter);
 
         itemPrice.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(5,2)});
 
@@ -61,6 +76,6 @@ public class AddItem extends AppCompatActivity
             }
         };
 
-        scanBarcode.setOnClickListener(startBarcodeScannerActivity);
+
     }
 }
