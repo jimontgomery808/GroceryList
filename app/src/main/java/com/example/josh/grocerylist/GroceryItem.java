@@ -4,9 +4,9 @@ package com.example.josh.grocerylist;
 public class GroceryItem
 {
     private String name;
-    private String cost;
+    private double cost;
 
-    public GroceryItem(String setName, String setCost)
+    public GroceryItem(String setName, double setCost)
     {
         name = setName;
         cost = setCost;
@@ -16,7 +16,7 @@ public class GroceryItem
         return name;
     }
 
-    public String getCost()
+    public double getCost()
     {
         return cost;
     }
@@ -26,7 +26,7 @@ public class GroceryItem
         this.name = name;
     }
 
-    public void setCost(String cost)
+    public void setCost(double cost)
     {
         this.cost = cost;
     }
@@ -34,6 +34,6 @@ public class GroceryItem
     @Override
     public String toString()
     {
-        return(name + "       " + cost);
+        return(name + "       " + Double.toString(cost));
     }
 }

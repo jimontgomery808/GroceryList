@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import static com.example.josh.grocerylist.R.id.runningTotal;
 
 public class List extends AppCompatActivity
 {
@@ -24,7 +26,8 @@ public class List extends AppCompatActivity
     private ArrayList<GroceryItem> shoppingCart = new ArrayList<>();
     private ArrayList<String> listArray = new ArrayList<>();
     private ArrayAdapter<String> adapter;
-    private GroceryItem tempItem;
+
+    private DecimalFormat precision = new DecimalFormat("#.##");
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -33,11 +36,12 @@ public class List extends AppCompatActivity
 
         add = (Button) findViewById(R.id.addBtn);
         listView = (ListView) findViewById(R.id.list);
-        runTotal = (TextView) findViewById(R.id.runningTotal);
+        runTotal = (TextView) findViewById(runningTotal);
 
         adapter = new ArrayAdapter<String>(this, R.layout.single_item, listArray);
         listView.setAdapter(adapter);
 
+        // ITEM DELETED FROM LIST
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
         {
 
@@ -54,10 +58,9 @@ public class List extends AppCompatActivity
                 {
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        total -= Double.parseDouble(shoppingCart.get(index).getCost());
-                        updateTotal(Double.toString(total));
-                        listArray.remove(index);
-                        shoppingCart.remove(index);
+                        total -= deleteItem(index);
+                        updateTotal(total);
+
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -80,6 +83,7 @@ public class List extends AppCompatActivity
         add.setOnClickListener(addPushed);
     }
 
+    // ITEM ADDED TO LIST
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -89,24 +93,53 @@ public class List extends AppCompatActivity
         {
             String name = data.getStringExtra("NAME");
             String price = data.getStringExtra("PRICE");
-            double runningTotal = Double.parseDouble(price);
-            total += runningTotal;
+            double itemPrice = Double.parseDouble(price);
+            total += itemPrice;
 
-            Log.v("HERE", name + ", " + price);
+            GroceryItem groceryItem = new GroceryItem(name, itemPrice);
+            addItem(groceryItem);
 
-            GroceryItem groceryItem = new GroceryItem(name, price);
-            shoppingCart.add(groceryItem);
-
-            listArray.add(groceryItem.toString());
-            adapter.notifyDataSetChanged();
-
-            updateTotal("$" + Double.toString(total));
         }
     }
 
-    private void updateTotal(String total)
+    // Updates running total
+    private void updateTotal(Double total)
     {
-        runTotal.setText(total);
+
+        String listTotal = precision.format(total);
+
+        if(adapter.isEmpty())
+        {
+            shoppingCart.clear();
+            listArray.clear();
+            total = 0.00;
+            runTotal.setText("$0.00");
+        }
+        else
+        {
+            runTotal.setText("$" + listTotal);
+        }
+    }
+
+    // Remove item from list
+    private double deleteItem(int index)
+    {
+        double subtract = shoppingCart.get(index).getCost();
+        shoppingCart.remove(index);
+        listArray.remove(index);
+        adapter.notifyDataSetChanged();
+        updateTotal(total);
+
+        return subtract;
+    }
+
+    // Add item to list
+    private void addItem(GroceryItem item)
+    {
+        shoppingCart.add(item);
+        listArray.add(item.toString());
+        adapter.notifyDataSetChanged();
+        updateTotal(total);
     }
 
 }
