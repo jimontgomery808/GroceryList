@@ -4,25 +4,36 @@ package com.example.josh.grocerylist;
 public class GroceryItem
 {
     private String name;
+    String unitOfMeasure;
     private double cost;
-    private int quanity;
+    private double quanity;
 
+    public String getUnitOfMeasure()
+    {
+        return unitOfMeasure;
+    }
 
-    public int getQuanity()
+    public void setUnitOfMeasure(String unitOfMeasure)
+    {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+
+    public double getQuanity()
     {
         return quanity;
     }
 
-    public void setQuanity(int quanity)
+    public void setQuanity(double quanity)
     {
         this.quanity = quanity;
     }
 
-    public GroceryItem(String setName, double setCost, int setQuantity)
+    public GroceryItem(String setName, double setCost, double setQuantity, String setUnit)
     {
         name = setName;
         cost = setCost;
         quanity = setQuantity;
+        unitOfMeasure = setUnit;
     }
     public String getName()
     {

@@ -24,7 +24,6 @@ public class List extends AppCompatActivity
     private ListView listView;
     private TextView runTotal;
     private ArrayList<GroceryItem> shoppingCart = new ArrayList<>();
-    private ArrayList<String> listArray = new ArrayList<>();
     private ArrayAdapter<GroceryItem> adapter;
 
     private DecimalFormat precision = new DecimalFormat("#.##");
@@ -93,25 +92,26 @@ public class List extends AppCompatActivity
         {
             String name = data.getStringExtra("NAME");
             String price = data.getStringExtra("PRICE");
-            double itemPrice = Double.parseDouble(price);
-            total += itemPrice;
+            String unit_of_measure = data.getStringExtra("UNIT_OF_MEASURE");
+            String quantity = data.getStringExtra("QUANTITY");
 
-            GroceryItem groceryItem = new GroceryItem(name, itemPrice, 1);
+            double itemPrice = Double.parseDouble(price);
+            total += itemPrice * Double.parseDouble(quantity);
+
+            GroceryItem groceryItem = new GroceryItem(name, itemPrice, Double.parseDouble(quantity), unit_of_measure);
             addItem(groceryItem);
 
         }
     }
 
     // Updates running total
-    private void updateTotal(Double total)
+    private void updateTotal(Double tot)
     {
-
-        String listTotal = precision.format(total);
+        String listTotal = precision.format(tot);
 
         if(adapter.isEmpty())
         {
             shoppingCart.clear();
-            listArray.clear();
             total = 0.00;
             runTotal.setText("$0.00");
         }
@@ -126,7 +126,6 @@ public class List extends AppCompatActivity
     {
         double subtract = shoppingCart.get(index).getCost();
         shoppingCart.remove(index);
-        listArray.remove(index);
         adapter.notifyDataSetChanged();
         updateTotal(total);
 

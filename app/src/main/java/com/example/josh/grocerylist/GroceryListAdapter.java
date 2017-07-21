@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +20,7 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryItem>
     private static final String TAG = "GroceryItemAdapter";
     private Context mContext;
     int mResource;
+    private DecimalFormat precision = new DecimalFormat("#.##");
 
     public GroceryListAdapter(Context context, int resource, ArrayList<GroceryItem> items)
     {
@@ -33,9 +35,10 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryItem>
     {
         String name  = getItem(position).getName();
         double price = getItem(position).getCost();
-        int quantity = getItem(position).getQuanity();
+        double quantity = getItem(position).getQuanity();
+        String uOfMeasure = getItem(position).getUnitOfMeasure();
 
-        GroceryItem gItem = new GroceryItem(name, price, quantity);
+        GroceryItem gItem = new GroceryItem(name, price, quantity, uOfMeasure);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
@@ -46,11 +49,39 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryItem>
         TextView txtViewTotal = (TextView) convertView.findViewById(R.id.totalPrice);
 
         txtViewName.setText(gItem.getName());
-        txtViewPrice.setText(Double.toString(gItem.getCost()));
-        txtViewQuantity.setText(Integer.toString(gItem.getQuanity()));
-        txtViewTotal.setText(Double.toString((gItem.getCost()) * gItem.getQuanity()));
+        txtViewPrice.setText("$" + Double.toString(gItem.getCost()) + " " + gItem.getUnitOfMeasure());
+
+        String measure = "";
+
+        if(gItem.getQuanity() == 1)
+        {
+            if(gItem.getUnitOfMeasure().equals("each"))
+            {
+                measure =("quantity 1");
+            }
+            else if(gItem.getUnitOfMeasure().equals("per pound"))
+            {
+                measure = ("1 pound");
+            }
+        }
+        else
+        {
+            if(gItem.getUnitOfMeasure().equals("each"))
+            {
+                measure = ("quantity: " + gItem.getQuanity());
+            }
+            else if(gItem.getUnitOfMeasure().equals("per pound"))
+            {
+                measure = (gItem.getQuanity() + " pounds");
+            }
+        }
+
+        txtViewQuantity.setText(measure);
+        txtViewTotal.setText("$" + precision.format(gItem.getCost() * gItem.getQuanity()));
 
         return convertView;
 
     }
+
 }
+
