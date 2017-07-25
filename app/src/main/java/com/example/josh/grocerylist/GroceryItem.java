@@ -1,12 +1,53 @@
 package com.example.josh.grocerylist;
 
 
-public class GroceryItem
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class GroceryItem implements Parcelable
 {
     private String name;
     String unitOfMeasure;
     private double cost;
     private double quanity;
+
+    protected GroceryItem(Parcel in)
+    {
+        name = in.readString();
+        unitOfMeasure = in.readString();
+        cost = in.readDouble();
+        quanity = in.readDouble();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        dest.writeString(name);
+        dest.writeString(unitOfMeasure);
+        dest.writeDouble(cost);
+        dest.writeDouble(quanity);
+    }
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    public static final Creator<GroceryItem> CREATOR = new Creator<GroceryItem>()
+    {
+        @Override
+        public GroceryItem createFromParcel(Parcel in)
+        {
+            return new GroceryItem(in);
+        }
+
+        @Override
+        public GroceryItem[] newArray(int size)
+        {
+            return new GroceryItem[size];
+        }
+    };
 
     public String getUnitOfMeasure()
     {

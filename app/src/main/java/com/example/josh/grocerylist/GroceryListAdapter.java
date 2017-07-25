@@ -20,7 +20,7 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryItem>
     private static final String TAG = "GroceryItemAdapter";
     private Context mContext;
     int mResource;
-    private DecimalFormat precision = new DecimalFormat("#.##");
+    private DecimalFormat precision = new DecimalFormat("#.00");
 
     public GroceryListAdapter(Context context, int resource, ArrayList<GroceryItem> items)
     {

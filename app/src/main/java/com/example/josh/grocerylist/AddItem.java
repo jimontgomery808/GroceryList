@@ -1,6 +1,7 @@
 package com.example.josh.grocerylist;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
@@ -86,19 +88,33 @@ public class AddItem extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String name = (String) itemName.getText().toString();
-                String price = (String) itemPrice.getText().toString();
-                String unit_measure = unitOfMeasure.getSelectedItem().toString();
-                String quantity = (String) itemQuantity.getText().toString();
+                if(itemName.getText().toString().matches("")| itemPrice.getText().toString().matches("")
+                        | unitOfMeasure.getSelectedItem().toString().matches("")
+                        | itemQuantity.getText().toString().matches(""))
+                {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Please fill out all required data";
+                    int duration = Toast.LENGTH_SHORT;
 
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("NAME", name);
-                resultIntent.putExtra("PRICE", price);
-                resultIntent.putExtra("UNIT_OF_MEASURE", unit_measure);
-                resultIntent.putExtra("QUANTITY", quantity);
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                else
+                {
+                    String name = (String) itemName.getText().toString();
+                    String price = (String) itemPrice.getText().toString();
+                    String unit_measure = unitOfMeasure.getSelectedItem().toString();
+                    String quantity = (String) itemQuantity.getText().toString();
 
-                setResult(Activity.RESULT_OK, resultIntent);
-                finish();
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("NAME", name);
+                    resultIntent.putExtra("PRICE", price);
+                    resultIntent.putExtra("UNIT_OF_MEASURE", unit_measure);
+                    resultIntent.putExtra("QUANTITY", quantity);
+
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
             }
         };
 
