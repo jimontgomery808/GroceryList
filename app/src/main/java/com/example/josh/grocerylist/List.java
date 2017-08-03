@@ -91,6 +91,7 @@ public class List extends AppCompatActivity
             listView.setAdapter(adapter);
             updateTotalOnConfigChange();
         }
+
     }
 
     // When screen orientation changes, this will save shopping cart
@@ -107,7 +108,7 @@ public class List extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 2)
+        if(requestCode == 2 && data != null)
         {
             String name = data.getStringExtra("NAME");
             String price = data.getStringExtra("PRICE");
@@ -116,6 +117,10 @@ public class List extends AppCompatActivity
 
             GroceryItem groceryItem = new GroceryItem(name, Double.parseDouble(price), Double.parseDouble(quantity), unit_of_measure);
             addItem(groceryItem);
+
+        }
+        else if(requestCode == 0)
+        {
 
         }
     }

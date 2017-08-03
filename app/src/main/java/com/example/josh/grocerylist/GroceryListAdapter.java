@@ -57,7 +57,7 @@ public class GroceryListAdapter extends ArrayAdapter<GroceryItem>
         {
             if(gItem.getUnitOfMeasure().equals("each"))
             {
-                measure =("quantity 1");
+                measure =("quantity: 1");
             }
             else if(gItem.getUnitOfMeasure().equals("per pound"))
             {
