@@ -25,8 +25,11 @@ public class List extends AppCompatActivity
     private ArrayList<GroceryItem> shoppingCart = new ArrayList<>();
     private ArrayAdapter<GroceryItem> adapter;
     private final String LIST_KEY = "listKey";
+    private final int ADD_NEW = 1;
+    private final int EDIT = 2;
     private FloatingActionButton newItem;
     private DecimalFormat precision = new DecimalFormat("#.00");
+
 
 
     @Override
@@ -71,6 +74,29 @@ public class List extends AppCompatActivity
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Intent intent = new Intent(List.this, AddItem.class);
+
+                String editName          = shoppingCart.get(position).getName();
+                String editCost          = Double.toString(shoppingCart.get(position).getCost());
+                String editUnitOfMeasure = shoppingCart.get(position).getUnitOfMeasure();
+                String editQuantity      = Double.toString(shoppingCart.get(position).getQuanity());
+
+                intent.putExtra("NAME", editName);
+                intent.putExtra("PRICE", editCost);
+                intent.putExtra("UNIT_OF_MEASURE", editUnitOfMeasure);
+                intent.putExtra("QUANTITY", editQuantity);
+                intent.putExtra("POSITION", position);
+
+                startActivityForResult(intent, EDIT);
+
+            }
+        });
+
         // Set click listener for add button
         View.OnClickListener addPushed = new View.OnClickListener()
         {
@@ -78,7 +104,7 @@ public class List extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent intent = new Intent(List.this, AddItem.class);
-                startActivityForResult(intent, 2);
+                startActivityForResult(intent, ADD_NEW);
             }
         };
         newItem.setOnClickListener(addPushed);
@@ -108,21 +134,26 @@ public class List extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 2 && data != null)
+        if(data != null)
         {
             String name = data.getStringExtra("NAME");
             String price = data.getStringExtra("PRICE");
             String unit_of_measure = data.getStringExtra("UNIT_OF_MEASURE");
             String quantity = data.getStringExtra("QUANTITY");
-
             GroceryItem groceryItem = new GroceryItem(name, Double.parseDouble(price), Double.parseDouble(quantity), unit_of_measure);
-            addItem(groceryItem);
 
-        }
-        else if(requestCode == 0)
-        {
+            switch (requestCode)
+            {
 
+                case ADD_NEW: addItem(groceryItem);
+                    break;
+
+                case EDIT: String position = data.getStringExtra("POSITION");
+                    break;
+
+            }
         }
+
     }
 
     // Updates running total
@@ -159,6 +190,12 @@ public class List extends AppCompatActivity
         shoppingCart.add(item);
         adapter.notifyDataSetChanged();
         updateTotal(itemTotal);
+    }
+
+    private void editItem(int position, GroceryItem item)
+    {
+        shoppingCart.set(position, item);
+        updateTotalOnConfigChange();
     }
 
     // Re-initalizes all shopping cart values after screen orientation

@@ -46,7 +46,8 @@
         android:textAlignment="center"
         android:id="@+id/runningTotal"
         android:text="$0.00"
-        android:background="@android:color/holo_blue_dark"/>
+        android:background="@color/darkblue"
+        android:textColor="@color/white"/>
 
 </LinearLayout>
 

@@ -37,17 +37,50 @@ public class AddItem extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+
         addItemBtn = (Button) findViewById(R.id.addToList);
         itemName = (EditText) findViewById(R.id.nameInput);
         itemPrice = (EditText) findViewById(R.id.priceInput);
         eachButton = (Button) findViewById(R.id.eachButton);
         perPoundButton = (Button) findViewById(R.id.poundButton);
-        //unitOfMeasure = (Spinner) findViewById(R.id.unit_of_measure);
         itemQuantity = (EditText) findViewById(R.id.quantity);
         itemQuantity.setVisibility(View.INVISIBLE);
-
         eachButton.setBackgroundColor(Color.parseColor("lightgrey"));
         perPoundButton.setBackgroundColor(Color.parseColor("lightgrey"));
+
+
+        if(getIntent().hasExtra("NAME"))
+        {
+            itemName.setText(getIntent().getStringExtra("NAME"));
+            itemPrice.setText(getIntent().getStringExtra("PRICE"));
+
+            if(getIntent().getStringExtra("UNIT_OF_MEASURE").equals("each"))
+            {
+                eachButton.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        eachButton.performClick();
+                    }
+                });
+
+            }
+            else
+            {
+                perPoundButton.performClick();
+            }
+
+            itemQuantity.setText(getIntent().getStringExtra("QUANTITY"));
+            itemName.setText(getIntent().getStringExtra("NAME"));
+
+            Context context = getApplicationContext();
+            CharSequence text = getIntent().getStringExtra("UNIT_OF_MEASURE");
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
 
         eachButton.setOnClickListener(new View.OnClickListener()
         {

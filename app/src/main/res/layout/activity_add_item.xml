@@ -10,17 +10,19 @@
     android:orientation="vertical"
     android:weightSum="100">
 
+
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:id="@+id/nameInput"
-        android:hint="item name"
         android:layout_gravity="center"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:hint="grocery item"
+        android:layout_weight="10"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:maxLength="3"
@@ -28,43 +30,33 @@
         android:layout_below="@+id/priceText"
         android:hint="price"
         android:layout_gravity="center"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:layout_weight="10"/>
 
-    <!--<Spinner-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:inputType="numberDecimal"-->
-        <!--android:id="@+id/unit_of_measure"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:textAlignment="center"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_weight="30"
         android:weightSum="100">
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:id="@+id/eachButton"
-            android:layout_weight="50"
-            android:text="each"/>
+            android:text="each"
+            android:layout_weight="50"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/poundButton"
-            android:layout_weight="50"
-            android:text="per pound"/>
+            android:text="per pound"
+            android:layout_weight="50"/>
 
     </LinearLayout>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent">-->
-
-
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/quantity"
             android:hint="quantity"
@@ -72,7 +64,8 @@
             android:textAlignment="center"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="13dp"/>
+            android:layout_marginTop="13dp"
+            android:layout_weight="30"/>
 
         <Button
             android:text="Add To List"
@@ -80,10 +73,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/addToList"
             android:layout_marginTop="59dp"
-            android:layout_below="@+id/quantity"/>
-
-
-    <!--</RelativeLayout>-->
-
+            android:layout_below="@+id/quantity"
+            android:layout_weight="20"/>
 
 </LinearLayout>
